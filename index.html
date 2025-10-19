@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reflection Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+        }
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+        .section-title {
+            border-left: 4px solid #0056b3; /* Primary Ronaldo Blue */
+            padding-left: 1rem;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: #0056b3;
+            outline: none;
+            box-shadow: 0 0 0 1px #0056b3;
+        }
+        .radio-label {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-align: center;
+            user-select: none;
+            flex-grow: 1;
+        }
+        input[type="radio"]:checked + .radio-label {
+            background-color: #e6f0ff; /* Light blue background */
+            border-color: #0056b3;
+            font-weight: 600;
+        }
+        input[type="radio"] {
+            /* Hide the actual radio button */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <form id="reflection-form" onsubmit="submitForm(event)">
+        <h1 class="text-3xl font-bold text-center mb-1 text-gray-800">⚡ Ronaldo 25% Reflection</h1>
+        <p class="text-center text-gray-500 mb-8">Fill this every night before bed — takes 2 minutes.</p>
+
+        <!-- SECTION 1: Discipline Check -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 section-title text-gray-700">🧠 Section 1: Discipline Check</h2>
+
+            <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">🏋️ Did I complete today’s workout?</label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="radio" id="workout_yes" name="workout" value="Yes" required><label for="workout_yes" class="radio-label">Yes</label>
+                    <input type="radio" id="workout_no" name="workout" value="No"><label for="workout_no" class="radio-label">No</label>
+                    <input type="radio" id="workout_rest" name="workout" value="Rest day"><label for="workout_rest" class="radio-label">Rest day</label>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">🍽️ Did I follow my meal plan (80% clean)?</label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="radio" id="meal_yes" name="meal" value="Yes" required><label for="meal_yes" class="radio-label">Yes</label>
+                    <input type="radio" id="meal_somewhat" name="meal" value="Somewhat"><label for="meal_somewhat" class="radio-label">Somewhat</label>
+                    <input type="radio" id="meal_no" name="meal" value="No"><label for="meal_no" class="radio-label">No</label>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">💧 Did I drink enough water (3–4L)?</label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="radio" id="water_yes" name="water" value="Yes" required><label for="water_yes" class="radio-label">Yes</label>
+                    <input type="radio" id="water_no" name="water" value="No"><label for="water_no" class="radio-label">No</label>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">😴 Did I start winding down by 10:30 PM?</label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="radio" id="winddown_yes" name="winddown" value="Yes" required><label for="winddown_yes" class="radio-label">Yes</label>
+                    <input type="radio" id="winddown_no" name="winddown" value="No"><label for="winddown_no" class="radio-label">No</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Physical & Mental Feedback -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 section-title text-gray-700">💪 Section 2: Physical & Mental Feedback</h2>
+
+            <div class="mb-5">
+                <label for="energy" class="block text-gray-700 font-medium mb-2">⚡ Energy Level (1–10):</label>
+                <input type="number" id="energy" name="energy" min="1" max="10" placeholder="e.g., 8" class="input-field" required>
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">😌 Mood Today:</label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="radio" id="mood_calm" name="mood" value="Calm" required><label for="mood_calm" class="radio-label">Calm</label>
+                    <input type="radio" id="mood_focused" name="mood" value="Focused"><label for="mood_focused" class="radio-label">Focused</label>
+                    <input type="radio" id="mood_tired" name="mood" value="Tired"><label for="mood_tired" class="radio-label">Tired</label>
+                    <input type="radio" id="mood_stressed" name="mood" value="Stressed"><label for="mood_stressed" class="radio-label">Stressed</label>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-gray-700 font-medium mb-2">💥 Performance (Workout intensity today):</label>
+                <div class="flex flex-wrap gap-3">
+                    <input type="radio" id="perf_low" name="performance" value="Low" required><label for="perf_low" class="radio-label">Low</label>
+                    <input type="radio" id="perf_moderate" name="performance" value="Moderate"><label for="perf_moderate" class="radio-label">Moderate</label>
+                    <input type="radio" id="perf_high" name="performance" value="High"><label for="perf_high" class="radio-label">High</label>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <label for="soreness" class="block text-gray-700 font-medium mb-2">🧍‍♂️ Noticed any soreness or pain? (Where?):</label>
+                <input type="text" id="soreness" name="soreness" placeholder="e.g., Low back tightness, left shoulder" class="input-field">
+            </div>
+        </div>
+
+        <!-- SECTION 3: Progress & Mindset -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 section-title text-gray-700">🧭 Section 3: Progress & Mindset</h2>
+
+            <div class="mb-5">
+                <label for="win" class="block text-gray-700 font-medium mb-2">🎯 One win for today (big or small):</label>
+                <textarea id="win" name="win" rows="2" placeholder="e.g., Hit a new personal best on squats, or successfully avoided the vending machine." class="input-field"></textarea>
+            </div>
+
+            <div class="mb-5">
+                <label for="improve" class="block text-gray-700 font-medium mb-2">🔁 One thing to improve tomorrow:</label>
+                <textarea id="improve" name="improve" rows="2" placeholder="e.g., Get up 15 minutes earlier to stretch, or track all my macro nutrients." class="input-field"></textarea>
+            </div>
+
+            <div class="mb-5">
+                <label for="quote" class="block text-gray-700 font-medium mb-2">💭 Quote/mindset for tomorrow:</label>
+                <textarea id="quote" name="quote" rows="2" placeholder="e.g., 'Consistency is what transforms average into excellence.'" class="input-field"></textarea>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+            Submit Reflection & Download Sheet
+        </button>
+
+        <div id="confirmation-message" class="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg hidden" role="alert">
+            Reflection submitted and **Reflection_[Date].csv** has been downloaded!
+        </div>
+    </form>
+</div>
+
+<script>
+    /**
+     * Helper function to sanitize text fields and escape double quotes
+     * for correct CSV formatting.
+     * @param {string} value - The text value to sanitize.
+     * @returns {string} - The sanitized, quoted string.
+     */
+    function sanitizeForCSV(value) {
+        if (!value) return '';
+        // Replace all double quotes with two double quotes, and wrap the whole thing in quotes
+        // This is standard CSV escaping for multi-line/complex strings.
+        let sanitized = String(value).replace(/"/g, '""');
+        return `"${sanitized}"`;
+    }
+
+    /**
+     * Generates a CSV string from the form data object.
+     * @param {Object} data - The form data key-value pairs.
+     * @returns {string} - The complete CSV content string.
+     */
+    function convertToCSV(data) {
+        // Define the headers explicitly for clarity and order
+        const headers = [
+            "Date", "Workout Completed", "Meal Plan Followed", "Water Intake (3-4L)", 
+            "Winding Down by 10:30 PM", "Energy Level (1-10)", "Mood Today", 
+            "Workout Performance", "Soreness/Pain", "One Win Today", 
+            "Improvement for Tomorrow", "Quote/Mindset"
+        ];
+
+        // Define the order of keys to match the headers
+        const keys = [
+            'reflection_date', 'workout', 'meal', 'water', 
+            'winddown', 'energy', 'mood', 
+            'performance', 'soreness', 'win', 
+            'improve', 'quote'
+        ];
+
+        // Get the values in the correct order, sanitizing text fields
+        const values = keys.map(key => {
+            if (key === 'reflection_date') {
+                return new Date().toISOString().split('T')[0];
+            } else if (key === 'energy') {
+                return data[key] || ''; // Energy is a number, no need to quote
+            } else {
+                // Sanitize all text fields (including the radio button results for safety)
+                return sanitizeForCSV(data[key] || '');
+            }
+        });
+
+        // Combine headers and values into the final CSV string
+        return headers.join(',') + '\n' + values.join(',');
+    }
+
+    /**
+     * Handles form submission, generates CSV, and triggers download.
+     */
+    function submitForm(event) {
+        event.preventDefault(); // Stop the form from causing a page refresh
+
+        const form = document.getElementById('reflection-form');
+        const formData = new FormData(form);
+        const data = {};
+
+        // Collect all form data into a simple object
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        // 1. Generate the CSV content
+        const csvContent = convertToCSV(data);
+
+        // 2. Create the file name (e.g., Reflection_2025-10-19.csv)
+        const dateString = new Date().toISOString().split('T')[0];
+        const fileName = `Reflection_${dateString}.csv`;
+
+        // 3. Create a Blob and a download link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        
+        if (link.download !== undefined) { 
+            // Browsers that support HTML5 download attribute
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", fileName);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            // Fallback for older browsers (not strictly necessary for modern browsers)
+            console.error("Download feature not supported in this browser environment.");
+        }
+
+        // 4. Update the confirmation message
+        const confirmation = document.getElementById('confirmation-message');
+        confirmation.innerHTML = `Reflection submitted and <strong>${fileName}</strong> has been downloaded!`;
+        confirmation.classList.remove('hidden');
+        
+        // Optional: Clear the form fields after submission
+        form.reset();
+    }
+</script>
+
+</body>
+</html>
