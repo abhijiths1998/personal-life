@@ -173,107 +173,97 @@
 </div>
 
 <script>
-    /**
-     * Helper function to sanitize text fields and escape double quotes
-     * for correct CSV formatting.
-     * @param {string} value - The text value to sanitize.
-     * @returns {string} - The sanitized, quoted string.
-     */
-    function sanitizeForCSV(value) {
-        if (!value) return '';
-        // Replace all double quotes with two double quotes, and wrap the whole thing in quotes
-        // This is standard CSV escaping for multi-line/complex strings.
-        let sanitized = String(value).replace(/"/g, '""');
-        return `"${sanitized}"`;
-    }
+/* --------- CONFIG ---------- */
+const APPS_SCRIPT_URL = "https://abhijiths1998.github.io/personal-life/"; // <-- replace with your deployed web app URL
+/* --------------------------- */
 
-    /**
-     * Generates a CSV string from the form data object.
-     * @param {Object} data - The form data key-value pairs.
-     * @returns {string} - The complete CSV content string.
-     */
-    function convertToCSV(data) {
-        // Define the headers explicitly for clarity and order
-        const headers = [
-            "Date", "Workout Completed", "Meal Plan Followed", "Water Intake (3-4L)", 
-            "Winding Down by 10:30 PM", "Energy Level (1-10)", "Mood Today", 
-            "Workout Performance", "Soreness/Pain", "One Win Today", 
-            "Improvement for Tomorrow", "Quote/Mindset"
-        ];
-
-        // Define the order of keys to match the headers
-        const keys = [
-            'reflection_date', 'workout', 'meal', 'water', 
-            'winddown', 'energy', 'mood', 
-            'performance', 'soreness', 'win', 
-            'improve', 'quote'
-        ];
-
-        // Get the values in the correct order, sanitizing text fields
-        const values = keys.map(key => {
-            if (key === 'reflection_date') {
-                return new Date().toISOString().split('T')[0];
-            } else if (key === 'energy') {
-                return data[key] || ''; // Energy is a number, no need to quote
-            } else {
-                // Sanitize all text fields (including the radio button results for safety)
-                return sanitizeForCSV(data[key] || '');
-            }
-        });
-
-        // Combine headers and values into the final CSV string
-        return headers.join(',') + '\n' + values.join(',');
-    }
-
-    /**
-     * Handles form submission, generates CSV, and triggers download.
-     */
-    function submitForm(event) {
-        event.preventDefault(); // Stop the form from causing a page refresh
-
-        const form = document.getElementById('reflection-form');
-        const formData = new FormData(form);
-        const data = {};
-
-        // Collect all form data into a simple object
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
-
-        // 1. Generate the CSV content
-        const csvContent = convertToCSV(data);
-
-        // 2. Create the file name (e.g., Reflection_2025-10-19.csv)
-        const dateString = new Date().toISOString().split('T')[0];
-        const fileName = `Reflection_${dateString}.csv`;
-
-        // 3. Create a Blob and a download link
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        
-        if (link.download !== undefined) { 
-            // Browsers that support HTML5 download attribute
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", fileName);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+function sanitizeForCSV(value) {
+    if (!value) return '';
+    let sanitized = String(value).replace(/"/g, '""');
+    return `"${sanitized}"`;
+}
+function convertToCSV(data) {
+    const headers = [
+        "Date", "Workout Completed", "Meal Plan Followed", "Water Intake (3-4L)",
+        "Winding Down by 10:30 PM", "Energy Level (1-10)", "Mood Today",
+        "Workout Performance", "Soreness/Pain", "One Win Today",
+        "Improvement for Tomorrow", "Quote/Mindset"
+    ];
+    const keys = [
+        'reflection_date', 'workout', 'meal', 'water',
+        'winddown', 'energy', 'mood',
+        'performance', 'soreness', 'win',
+        'improve', 'quote'
+    ];
+    const values = keys.map(key => {
+        if (key === 'reflection_date') {
+            return new Date().toISOString().split('T')[0];
+        } else if (key === 'energy') {
+            return data[key] || '';
         } else {
-            // Fallback for older browsers (not strictly necessary for modern browsers)
-            console.error("Download feature not supported in this browser environment.");
+            return sanitizeForCSV(data[key] || '');
         }
+    });
+    return headers.join(',') + '\n' + values.join(',');
+}
 
-        // 4. Update the confirmation message
-        const confirmation = document.getElementById('confirmation-message');
-        confirmation.innerHTML = `Reflection submitted and <strong>${fileName}</strong> has been downloaded!`;
-        confirmation.classList.remove('hidden');
-        
-        // Optional: Clear the form fields after submission
-        form.reset();
+async function submitForm(event) {
+    event.preventDefault();
+    const form = document.getElementById('reflection-form');
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
+
+    // 1) Send to Apps Script (server) as JSON
+    try {
+        const resp = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const json = await resp.json();
+        if (json && json.result === 'success') {
+            showConfirmation(true, json.message || 'Saved to Google Sheet');
+        } else {
+            showConfirmation(false, json.message || 'Saved but returned unknown response');
+        }
+    } catch (err) {
+        console.error('Failed to send to Apps Script:', err);
+        showConfirmation(false, 'Failed to save online — data downloaded instead.');
     }
+
+    // 2) Also trigger local CSV download (optional, keep for offline)
+    const csvContent = convertToCSV(data);
+    const dateString = new Date().toISOString().split('T')[0];
+    const fileName = `Reflection_${dateString}.csv`;
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Reset & show UI
+    form.reset();
+}
+
+function showConfirmation(success, msg) {
+    const confirmation = document.getElementById('confirmation-message');
+    confirmation.innerHTML = success ? `✅ ${msg}` : `⚠️ ${msg}`;
+    confirmation.classList.remove('hidden');
+    confirmation.style.backgroundColor = success ? '#ecfdf5' : '#fff7ed';
+    confirmation.style.borderColor = success ? '#bbf7d0' : '#ffedd5';
+}
 </script>
+
 
 </body>
 </html>
