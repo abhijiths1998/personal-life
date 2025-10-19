@@ -8,7 +8,7 @@
  * Access: Anyone (even anonymous) if you want no auth friction.
  */
 
-const SHEET_ID = 'PASTE_YOUR_SHEET_ID_HERE'; // <-- Replace after creating sheet
+const SHEET_ID = '1sGFPMCU5qaHU6XTYOSR6HpoWMPfjldC5_TzYdl7tJSg'; // <-- Replace after creating sheet
 
 function doPost(e) {
   // Allow OPTIONS preflight
