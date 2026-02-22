@@ -1,269 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Reflection Form</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fc;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 2rem 1rem;
-        }
-        .form-container {
-            max-width: 600px;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border-radius: 16px;
-            padding: 2.5rem;
-        }
-        .section-title {
-            border-left: 4px solid #0056b3; /* Primary Ronaldo Blue */
-            padding-left: 1rem;
-        }
-        .input-field {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            transition: border-color 0.2s;
-        }
-        .input-field:focus {
-            border-color: #0056b3;
-            outline: none;
-            box-shadow: 0 0 0 1px #0056b3;
-        }
-        .radio-label {
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            transition: background-color 0.2s, border-color 0.2s;
-            text-align: center;
-            user-select: none;
-            flex-grow: 1;
-        }
-        input[type="radio"]:checked + .radio-label {
-            background-color: #e6f0ff; /* Light blue background */
-            border-color: #0056b3;
-            font-weight: 600;
-        }
-        input[type="radio"] {
-            /* Hide the actual radio button */
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhijith S Varma | Data Engineer</title>
+  <meta name="description" content="Interactive resume of Abhijith S Varma, Data Engineer specialized in Spark, Delta Lake, and scalable data platforms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0f172a;
+      --card: rgba(15, 23, 42, 0.72);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22d3ee;
+      --accent-2: #38bdf8;
+      --line: rgba(148, 163, 184, 0.3);
+      --shadow: 0 10px 30px rgba(8, 15, 30, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top right, #102040 0%, var(--bg) 42%), var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: -2;
+      pointer-events: none;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .blob.one {
+      width: 340px;
+      height: 340px;
+      background: rgba(56, 189, 248, 0.2);
+      top: -90px;
+      left: -90px;
+    }
+
+    .blob.two {
+      width: 280px;
+      height: 280px;
+      background: rgba(34, 211, 238, 0.15);
+      right: 3%;
+      top: 20%;
+      animation-delay: 1s;
+    }
+
+    .blob.three {
+      width: 260px;
+      height: 260px;
+      background: rgba(16, 185, 129, 0.12);
+      left: 12%;
+      bottom: 8%;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-18px) scale(1.04); }
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.18), transparent 60%);
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      transition: top 0.15s ease, left 0.15s ease;
+    }
+
+    .container {
+      width: min(1040px, 92vw);
+      margin: 48px auto 80px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    header {
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(34, 211, 238, 0.1), transparent 45%);
+      pointer-events: none;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-bottom: 18px;
+    }
+
+    .contact a {
+      color: #bae6fd;
+      text-decoration: none;
+      border-bottom: 1px dashed transparent;
+    }
+
+    .contact a:hover {
+      border-color: #7dd3fc;
+    }
+
+    .summary {
+      color: #cbd5e1;
+      max-width: 68ch;
+      line-height: 1.65;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    section {
+      padding: 30px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #67e8f9;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .skill-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .skill-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34, 211, 238, 0.55);
+    }
+
+    .skill-item strong {
+      display: block;
+      color: #e0f2fe;
+      margin-bottom: 6px;
+    }
+
+    .timeline {
+      position: relative;
+      margin-left: 10px;
+      padding-left: 24px;
+      border-left: 2px solid rgba(103, 232, 249, 0.4);
+    }
+
+    .job {
+      margin-bottom: 22px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.52);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: transform 0.5s ease, opacity 0.5s ease, border-color 0.3s ease;
+      position: relative;
+    }
+
+    .job.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .job:hover {
+      border-color: rgba(103, 232, 249, 0.65);
+    }
+
+    .job::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 20px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(34, 211, 238, 0.15);
+    }
+
+    .job-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .role {
+      font-weight: 700;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    ul {
+      margin-top: 10px;
+      padding-left: 18px;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .certs, .education {
+      display: grid;
+      gap: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.6);
+      color: #cbd5e1;
+      transition: transform 0.2s ease;
+    }
+
+    .pill:hover { transform: scale(1.03); }
+
+    .footer {
+      text-align: center;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      header, section { padding: 22px; }
+      .timeline { padding-left: 16px; }
+      .job::before { left: -24px; }
+    }
+  </style>
 </head>
 <body>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+  <div class="blob three"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-<div class="form-container">
-    <form id="reflection-form" onsubmit="submitForm(event)">
-        <h1 class="text-3xl font-bold text-center mb-1 text-gray-800">⚡ Ronaldo 25% Reflection</h1>
-        <p class="text-center text-gray-500 mb-8">Fill this every night before bed — takes 2 minutes.</p>
+  <div class="container">
+    <header class="card">
+      <h1>Abhijith S Varma</h1>
+      <p class="subtitle">Data Engineer · Spark & Delta Lake Specialist</p>
+      <div class="contact">
+        <span>📍 Chennai, India</span>
+        <a href="mailto:abhivarma362@gmail.com">abhivarma362@gmail.com</a>
+        <a href="tel:+919074764103">+91-9074764103</a>
+        <a href="#" aria-label="LinkedIn profile">LinkedIn</a>
+      </div>
+      <p class="summary">
+        Data Engineer with 4+ years of experience building and maintaining large-scale batch and streaming data systems using Spark and Delta Lake. Strong focus on performance tuning, storage optimization, and robust data validation frameworks in production environments.
+      </p>
+    </header>
 
-        <!-- SECTION 1: Discipline Check -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 section-title text-gray-700">🧠 Section 1: Discipline Check</h2>
-
-            <div class="mb-5">
-                <label class="block text-gray-700 font-medium mb-2">🏋️ Did I complete today’s workout?</label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="radio" id="workout_yes" name="workout" value="Yes" required><label for="workout_yes" class="radio-label">Yes</label>
-                    <input type="radio" id="workout_no" name="workout" value="No"><label for="workout_no" class="radio-label">No</label>
-                    <input type="radio" id="workout_rest" name="workout" value="Rest day"><label for="workout_rest" class="radio-label">Rest day</label>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <label class="block text-gray-700 font-medium mb-2">🍽️ Did I follow my meal plan (80% clean)?</label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="radio" id="meal_yes" name="meal" value="Yes" required><label for="meal_yes" class="radio-label">Yes</label>
-                    <input type="radio" id="meal_somewhat" name="meal" value="Somewhat"><label for="meal_somewhat" class="radio-label">Somewhat</label>
-                    <input type="radio" id="meal_no" name="meal" value="No"><label for="meal_no" class="radio-label">No</label>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <label class="block text-gray-700 font-medium mb-2">💧 Did I drink enough water (3–4L)?</label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="radio" id="water_yes" name="water" value="Yes" required><label for="water_yes" class="radio-label">Yes</label>
-                    <input type="radio" id="water_no" name="water" value="No"><label for="water_no" class="radio-label">No</label>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <label class="block text-gray-700 font-medium mb-2">😴 Did I start winding down by 10:30 PM?</label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="radio" id="winddown_yes" name="winddown" value="Yes" required><label for="winddown_yes" class="radio-label">Yes</label>
-                    <input type="radio" id="winddown_no" name="winddown" value="No"><label for="winddown_no" class="radio-label">No</label>
-                </div>
-            </div>
+    <div class="main-grid">
+      <section class="card">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+          <article class="skill-item"><strong>Languages</strong>Python, SQL</article>
+          <article class="skill-item"><strong>Big Data</strong>Apache Spark (PySpark), Delta Lake, Spark Structured Streaming</article>
+          <article class="skill-item"><strong>Cloud</strong>AWS (S3, Redshift), Azure, Databricks</article>
+          <article class="skill-item"><strong>Messaging</strong>Apache Kafka, AWS SQS</article>
+          <article class="skill-item"><strong>Orchestration / APIs</strong>FastAPI</article>
+          <article class="skill-item"><strong>Databases</strong>SQL Server, Redshift</article>
+          <article class="skill-item"><strong>Infrastructure</strong>Spark on Kubernetes (application layer)</article>
         </div>
+      </section>
 
-        <!-- SECTION 2: Physical & Mental Feedback -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 section-title text-gray-700">💪 Section 2: Physical & Mental Feedback</h2>
-
-            <div class="mb-5">
-                <label for="energy" class="block text-gray-700 font-medium mb-2">⚡ Energy Level (1–10):</label>
-                <input type="number" id="energy" name="energy" min="1" max="10" placeholder="e.g., 8" class="input-field" required>
+      <section class="card">
+        <h2>Professional Experience</h2>
+        <div class="timeline">
+          <article class="job reveal">
+            <div class="job-head">
+              <div>
+                <div class="role">Data Engineer · Tailurgndz LLC</div>
+                <div class="meta">Chennai</div>
+              </div>
+              <div class="meta">Sep 2024 – Present</div>
             </div>
+            <ul>
+              <li>Owned end-to-end batch data pipeline for Vendor Risk Management on Spark and Delta Lake.</li>
+              <li>Built reusable data validation framework for schema drift, null checks, duplicate checks, and sanity enforcement.</li>
+              <li>Mentored interns on Spark fundamentals, debugging practices, and production-grade engineering workflows.</li>
+              <li>Optimized PPV pipeline runtime from 2 hours to 15 minutes by redesigning transformations and query flow.</li>
+            </ul>
+          </article>
 
-            <div class="mb-5">
-                <label class="block text-gray-700 font-medium mb-2">😌 Mood Today:</label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="radio" id="mood_calm" name="mood" value="Calm" required><label for="mood_calm" class="radio-label">Calm</label>
-                    <input type="radio" id="mood_focused" name="mood" value="Focused"><label for="mood_focused" class="radio-label">Focused</label>
-                    <input type="radio" id="mood_tired" name="mood" value="Tired"><label for="mood_tired" class="radio-label">Tired</label>
-                    <input type="radio" id="mood_stressed" name="mood" value="Stressed"><label for="mood_stressed" class="radio-label">Stressed</label>
-                </div>
+          <article class="job reveal">
+            <div class="job-head">
+              <div>
+                <div class="role">Junior Data Engineer · Mad Street Den</div>
+                <div class="meta">Chennai</div>
+              </div>
+              <div class="meta">Jun 2023 – Aug 2024</div>
             </div>
+            <ul>
+              <li>Migrated Redshift/Databricks workloads to Kubernetes-native Spark execution, reducing vendor lock-in.</li>
+              <li>Designed FastAPI orchestration service to trigger and monitor production Spark jobs.</li>
+              <li>Designed ingestion/transformation workflows processing 800GB+ of data per day for enterprise clients.</li>
+              <li>Reduced largest Spark job runtime from 6.5 hours to 45 minutes via partitioning, shuffles, joins, and caching strategy.</li>
+              <li>Optimized Delta Lake storage layout and partitioning, lowering AWS storage costs by 86%.</li>
+              <li>Maintained Kafka + SQS to Delta Lake pipelines with checkpoint recovery and fault handling.</li>
+              <li>Optimized metrics processing pipelines, reducing infrastructure costs by 20%.</li>
+            </ul>
+          </article>
 
-            <div class="mb-5">
-                <label class="block text-gray-700 font-medium mb-2">💥 Performance (Workout intensity today):</label>
-                <div class="flex flex-wrap gap-3">
-                    <input type="radio" id="perf_low" name="performance" value="Low" required><label for="perf_low" class="radio-label">Low</label>
-                    <input type="radio" id="perf_moderate" name="performance" value="Moderate"><label for="perf_moderate" class="radio-label">Moderate</label>
-                    <input type="radio" id="perf_high" name="performance" value="High"><label for="perf_high" class="radio-label">High</label>
-                </div>
+          <article class="job reveal">
+            <div class="job-head">
+              <div>
+                <div class="role">Data Analyst Trainee / Intern · Mad Street Den</div>
+                <div class="meta">Chennai</div>
+              </div>
+              <div class="meta">Dec 2021 – May 2023</div>
             </div>
-
-            <div class="mb-5">
-                <label for="soreness" class="block text-gray-700 font-medium mb-2">🧍‍♂️ Noticed any soreness or pain? (Where?):</label>
-                <input type="text" id="soreness" name="soreness" placeholder="e.g., Low back tightness, left shoulder" class="input-field">
-            </div>
+            <ul>
+              <li>Developed anomaly alerting system using standard-deviation based detection for retail clients.</li>
+              <li>Built analytics dashboards and performance pipelines supporting large-scale client operations.</li>
+              <li>Contributed to templatized Databricks pipelines to accelerate onboarding for new client workloads.</li>
+              <li>Built dynamic metrics-generator project that increased team bandwidth for dashboard delivery.</li>
+            </ul>
+          </article>
         </div>
+      </section>
 
-        <!-- SECTION 3: Progress & Mindset -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 section-title text-gray-700">🧭 Section 3: Progress & Mindset</h2>
-
-            <div class="mb-5">
-                <label for="win" class="block text-gray-700 font-medium mb-2">🎯 One win for today (big or small):</label>
-                <textarea id="win" name="win" rows="2" placeholder="e.g., Hit a new personal best on squats, or successfully avoided the vending machine." class="input-field"></textarea>
-            </div>
-
-            <div class="mb-5">
-                <label for="improve" class="block text-gray-700 font-medium mb-2">🔁 One thing to improve tomorrow:</label>
-                <textarea id="improve" name="improve" rows="2" placeholder="e.g., Get up 15 minutes earlier to stretch, or track all my macro nutrients." class="input-field"></textarea>
-            </div>
-
-            <div class="mb-5">
-                <label for="quote" class="block text-gray-700 font-medium mb-2">💭 Quote/mindset for tomorrow:</label>
-                <textarea id="quote" name="quote" rows="2" placeholder="e.g., 'Consistency is what transforms average into excellence.'" class="input-field"></textarea>
-            </div>
+      <section class="card">
+        <h2>Certifications</h2>
+        <div class="certs">
+          <span class="pill">🏅 Databricks Certified Associate Developer</span>
+          <span class="pill">🏅 HackerRank SQL Intermediate</span>
         </div>
+      </section>
 
-        <!-- Submit Button -->
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-            Submit Reflection & Download Sheet
-        </button>
-
-        <div id="confirmation-message" class="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg hidden" role="alert">
-            Reflection submitted and **Reflection_[Date].csv** has been downloaded!
+      <section class="card">
+        <h2>Education</h2>
+        <div class="education">
+          <div class="pill">🎓 MBA — Management and Data Analytics · Birla Institute of Management and Technology</div>
+          <div class="pill">🎓 PGDM — Data Science · Great Learning Institute</div>
+          <div class="pill">🎓 B.Com — Kerala University</div>
         </div>
-    </form>
-</div>
+      </section>
+    </div>
 
-<script>
-/* --------- CONFIG ---------- */
-const APPS_SCRIPT_URL = "https://abhijiths1998.github.io/personal-life/"; // <-- replace with your deployed web app URL
-/* --------------------------- */
+    <p class="footer">Built as a GitHub Pages-ready interactive resume site.</p>
+  </div>
 
-function sanitizeForCSV(value) {
-    if (!value) return '';
-    let sanitized = String(value).replace(/"/g, '""');
-    return `"${sanitized}"`;
-}
-function convertToCSV(data) {
-    const headers = [
-        "Date", "Workout Completed", "Meal Plan Followed", "Water Intake (3-4L)",
-        "Winding Down by 10:30 PM", "Energy Level (1-10)", "Mood Today",
-        "Workout Performance", "Soreness/Pain", "One Win Today",
-        "Improvement for Tomorrow", "Quote/Mindset"
-    ];
-    const keys = [
-        'reflection_date', 'workout', 'meal', 'water',
-        'winddown', 'energy', 'mood',
-        'performance', 'soreness', 'win',
-        'improve', 'quote'
-    ];
-    const values = keys.map(key => {
-        if (key === 'reflection_date') {
-            return new Date().toISOString().split('T')[0];
-        } else if (key === 'energy') {
-            return data[key] || '';
-        } else {
-            return sanitizeForCSV(data[key] || '');
-        }
+  <script>
+    const cursorGlow = document.getElementById('cursorGlow');
+    window.addEventListener('pointermove', (event) => {
+      cursorGlow.style.left = `${event.clientX}px`;
+      cursorGlow.style.top = `${event.clientY}px`;
     });
-    return headers.join(',') + '\n' + values.join(',');
-}
 
-async function submitForm(event) {
-    event.preventDefault();
-    const form = document.getElementById('reflection-form');
-    const formData = new FormData(form);
-    const data = {};
-    formData.forEach((value, key) => data[key] = value);
-
-    // 1) Send to Apps Script (server) as JSON
-    try {
-        const resp = await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        const json = await resp.json();
-        if (json && json.result === 'success') {
-            showConfirmation(true, json.message || 'Saved to Google Sheet');
-        } else {
-            showConfirmation(false, json.message || 'Saved but returned unknown response');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
-    } catch (err) {
-        console.error('Failed to send to Apps Script:', err);
-        showConfirmation(false, 'Failed to save online — data downloaded instead.');
-    }
+      });
+    }, { threshold: 0.18 });
 
-    // 2) Also trigger local CSV download (optional, keep for offline)
-    const csvContent = convertToCSV(data);
-    const dateString = new Date().toISOString().split('T')[0];
-    const fileName = `Reflection_${dateString}.csv`;
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", fileName);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    // Reset & show UI
-    form.reset();
-}
-
-function showConfirmation(success, msg) {
-    const confirmation = document.getElementById('confirmation-message');
-    confirmation.innerHTML = success ? `✅ ${msg}` : `⚠️ ${msg}`;
-    confirmation.classList.remove('hidden');
-    confirmation.style.backgroundColor = success ? '#ecfdf5' : '#fff7ed';
-    confirmation.style.borderColor = success ? '#bbf7d0' : '#ffedd5';
-}
-</script>
-
-
+    document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+  </script>
 </body>
 </html>
